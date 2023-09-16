@@ -7,11 +7,11 @@ function [JointAngle] = IK(TEnd,DhParam)
 % *******************************
 % Output Parameters:
 % JointAngle = Inverse Kinematics Solution
-% There are 8 solution, please be careful how to solution need
+% There are 8 possible solution, please be carefull!
 % *******************************
-% SR-80 DH Parameters
-% a2 = 175; a3 = 905; a4 = 206; 
-% d1 = 630; d4 = 1020; d6 = 205;
+% KR 70 DH Parameters
+% a2 = 175; a3 = 890; a4 = 50;
+% d1 = 575; d4 = 1035; d6 = 185;
 % a     = [0,a2,a3,a4,0,0];
 % alpha = [0,90, 0, 90, -90, 90];
 % d     = [d1, 0, 0, d4, 0, d6];
