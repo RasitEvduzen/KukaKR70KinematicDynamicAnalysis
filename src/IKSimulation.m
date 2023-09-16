@@ -1,6 +1,6 @@
 clc,clear all,close all,warning off;
 %% 6 DOF ROBOTIC ARM FORWARD & INVERSE KINEMATIC ANALYSIS
-% KR70 ALTINAY ROBOTIC
+% Kuka KR70 ROBOTIC ARM
 % Written By: Rasit EVDUZEN
 % 26-Apr-2020
 
