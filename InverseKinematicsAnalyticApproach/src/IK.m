@@ -74,7 +74,7 @@ T12 = DHMatrixModify(alpha(2),a(2),d(2),J2deg(1)); % Solution Selection !!
 
 %---------------------------------------------------------------------------
 % Calculate Joint5
-T34 = DHMatrix(alpha(4),a(4),d(4),0);
+T34 = DHMatrixModify(alpha(4),a(4),d(4),0);
 T04 = T01 * T12 * T23 * T34;
 
 J5_1 = acos(dot(T04(1:3,3),TEnd(1:3,3)));
