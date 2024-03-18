@@ -25,7 +25,7 @@ switch TrajSelect
         Traj = [cx cy cz];
     case 2
         % Cartesian Trajectory- 2
-        cx = linspace(500,1000,NoD)';
+        cx = linspace(1000,1500,NoD)';
         cy = linspace(0,500,NoD)';
         cz = linspace(1000,1500,NoD)';
         Traj = [cx cy cz];
@@ -131,6 +131,11 @@ switch TrajSelect
         x = linspace(1000,1000,size(t,2))';
         y = (700*sin(t/3)+500)';
         z = (-700*sin(t/3).*cos(t/3)+1000)';
+        Traj = [x y z];
+    case 6
+        x = linspace(1250,1250,NoD)';
+        y = linspace(0,0,NoD)';
+        z = linspace(1400,1400,NoD)';
         Traj = [x y z];
     otherwise
         disp('Select allowable trajectory!')
