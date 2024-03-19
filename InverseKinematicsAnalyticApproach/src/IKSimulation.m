@@ -25,7 +25,7 @@ d     = [d1, 0, 0, d4, 0, d6];
 DhParam = [a; alpha; d];
 %-----------------------------------------------------------------%
 % Welding Torch Option
-WTorch = "Off";  % Welding Torch On ~ Off
+WTorch = "On";  % Welding Torch On ~ Off
 WTx = -1.8;  % X offset [mm]
 WTy = 1.16; % Y offset [mm]
 WTz = 436.99;   % Z offset [mm]
@@ -44,12 +44,12 @@ iWTtransMat = [eul2rotm(WTRPY,'ZYX')' eul2rotm(WTRPY,'ZYX')'*-[WTx WTy WTz]'; 0 
 % 6 -> Wrist Dance
 
 
-TrajSelect = 2;   % 0 Home Pose
+TrajSelect = 0;   % 0 Home Pose
 NoD = 50;        % Number of sample
 Traj = WorkSpaceTraj(TrajSelect,NoD);
 Roll = 0;
-Pitch = 90;
-Yaw = 0;
+Pitch = -90;
+Yaw = -180;
 eul = [Roll Pitch Yaw]*pi/180;
 eeOrient = eul2rotm(eul,'ZYX');  % Default "ZYX" For Home Pose R=0,P=-90,Y=-180
 %-----------------------------------------------------------------%
