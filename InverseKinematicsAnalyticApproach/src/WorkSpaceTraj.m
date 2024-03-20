@@ -25,9 +25,9 @@ switch TrajSelect
         Traj = [cx cy cz];
     case 2
         % Cartesian Trajectory- 2
-        cx = linspace(1000,1500,NoD)';
-        cy = linspace(0,500,NoD)';
-        cz = linspace(1000,1500,NoD)';
+        cx = linspace(750,1250,NoD)';
+        cy = linspace(-500,500,NoD)';
+        cz = linspace(500,1500,NoD)';
         Traj = [cx cy cz];
     case 3
         width = 550;
@@ -137,6 +137,16 @@ switch TrajSelect
         y = linspace(0,0,NoD)';
         z = linspace(1400,1400,NoD)';
         Traj = [x y z];
+    case 7 % Welding Process Simulation Line
+        cx = linspace(1228.31,1628.31,NoD)';
+        cy = linspace(9.5,9.5,NoD)';
+        cz = linspace(970.35,970.35,NoD)';
+        Traj = [cx cy cz];
+    case 8 % Welding Process Simulation Sinusoidal
+        cx = linspace(1228.31,1628.31,200)';
+        cy = 10*sin(cx/20);
+        cz = linspace(970.35,970.35,200)';
+        Traj = [cx cy cz];        
     otherwise
         disp('Select allowable trajectory!')
 end

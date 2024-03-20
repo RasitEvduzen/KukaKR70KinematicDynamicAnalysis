@@ -38,10 +38,26 @@ trisurf(link6Geo.ConnectivityList, plotLink6(:, 1), plotLink6(:, 2), plotLink6(:
     FaceColor = [0.5, 0.5, 0.5],EdgeColor = "none");
 
 if WTorch == "On"
+    % --------------------- Torch Plot  ---------------------%
     trplot(TransPlot(:,21:24)*WTtransMat,'frame','ee','thick',1,'rgb','length',100);
     plotTorch = TransformGeo(torchGeo.Points, TransPlot(:,21:24));
     trisurf(torchGeo.ConnectivityList, plotTorch(:, 1), plotTorch(:, 2), plotTorch(:, 3), ...
-        FaceColor = [0, 1, 0],EdgeColor = "none");
+        FaceColor = [0, 1, 0.5],EdgeColor = "none");
+    % --------------------- Table Plot  ---------------------%
+    tableGeo = stlread("table.STL");
+    TableTriad = eye(4);
+    TableTriad(1:3,4) = TableTriad(1:3,4) + [1430 0 959.85]'; % Table Offset
+    plotTable = TransformGeo(tableGeo.Points, TableTriad);
+    trisurf(tableGeo.ConnectivityList, plotTable(:, 1), plotTable(:, 2), plotTable(:, 3), ...
+        FaceColor = [1, 0, 0],EdgeColor = "none");
+    % --------------------- Plate Plot  ---------------------%
+    plateGeo = stlread("plate.STL");
+    PlateTriad = eye(4);
+    PlateTriad(1:3,4) = PlateTriad(1:3,4) + [1430 0 959.85]'; % Table Offset
+    plotTable = TransformGeo(plateGeo.Points, PlateTriad);
+    trisurf(plateGeo.ConnectivityList, plotTable(:, 1), plotTable(:, 2), plotTable(:, 3), ...
+        FaceColor = [1, 1, 1],EdgeColor = "none");
+    
 end
 camlight;
 lightangle(250, 15);

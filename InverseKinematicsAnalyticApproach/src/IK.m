@@ -91,6 +91,6 @@ J4deg = [J4_1]*180/pi;
 J6_1 = atan2(R46(3,2) , -R46(3,1));
 J6deg = [J6_1]*180/pi;
 
-JointAngle = [J1deg(1) J2deg(1) J3deg(2) J4deg J5deg J6deg];
+JointAngle = [J1deg(1) J2deg(1) J3deg(2) J4deg J5deg J6deg];  % Default -> J1deg(1) J2deg(1) J3deg(2)
 end
 

@@ -25,14 +25,14 @@ d     = [d1, 0, 0, d4, 0, d6];
 DhParam = [a; alpha; d];
 %-----------------------------------------------------------------%
 % Welding Torch Option
-WTorch = "Off";  % Welding Torch On ~ Off
+WTorch = "On";  % Welding Torch On ~ Off
 WTx = -1.8;  % X offset [mm] Real Value = 1.80248
 WTy = -1.16; % Y offset [mm] Real Value = -1.15921
 WTz = 436.99;   % Z offset [mm] Real Value = 436.99162
 WTRPY = [0 -50 0]*pi/180;  % Welding Torch Roll Pitch Yaw [0 -50 0]
 WTtransMat = [eul2rotm(WTRPY,'ZYX') [WTx WTy WTz]'; 0 0 0 1];
 iWTtransMat = [eul2rotm(WTRPY,'ZYX')' eul2rotm(WTRPY,'ZYX')'*-[WTx WTy WTz]'; 0 0 0 1];
-% WTtransMat*iWTtransMat  % Identity Matrix Check
+% WTtransMat*iWTtransMat
 % %-----------------------------------------------------------------%
 % Type of Trajectory
 % 0 -> Home Pose
@@ -42,8 +42,7 @@ iWTtransMat = [eul2rotm(WTRPY,'ZYX')' eul2rotm(WTRPY,'ZYX')'*-[WTx WTy WTz]'; 0 
 % 4 -> Star
 % 5 -> Inf
 % 6 -> Wrist Dance
-% 7 -> Linear Welding Traj, dont forget the set [WTorch = "On"]
-% 8 -> Sinusoidal Welding Traj, dont forget the set [WTorch = "On"]
+% 7 -> Linear Welding Traj
 
 
 TrajSelect = 7;   % 0 Home Pose
@@ -72,7 +71,7 @@ for i = 1:size(Traj,1)
 end
 
 %-----------------------------------------------------------------%
-Ts = 1e-2;       % Sampling Periode
+time = 1e-2;       % Sampling Periode
 %------------------ Calculate Inverse Kinematics -----------------%
 for k=1:size(Traj,1)-1
     if WTorch == "On"
@@ -83,7 +82,7 @@ for k=1:size(Traj,1)-1
     %-------------------- Trajectory Generation ----------------------%
     SimTheta = zeros(1,6);
     for j=1:length(iversethetaFinal)
-        SimTheta(j) = JointSpaceTraj(iversethetaInitial(j), iversethetaFinal(j), Ts,0,1);
+        SimTheta(j) = JointSpaceTraj(iversethetaInitial(j), iversethetaFinal(j), time,0,1);
     end
     %--------- ROBOT Forward Kinematics Calculate Matrix -----------%
     T06 = eye(4,4);
@@ -104,6 +103,7 @@ end
 
 %% Robot Simulation
 figure('units','normalized','outerposition',[0 0 1 1],'color','w')
+gif('Traj7_1.gif')
 for i = 1:size(AllMatrix,3)-1
     clf
     plot3(Traj(:,1),Traj(:,2),Traj(:,3),'k',LineWidth=2),hold on,grid on
@@ -114,5 +114,6 @@ for i = 1:size(AllMatrix,3)-1
     TransPlot = AllMatrix(:,:,i); 
     PlotRobot(TransPlot,baseGeo,link1Geo,link2Geo,link3Geo,link4Geo,link5Geo,link6Geo,torchGeo,WTorch,WTtransMat)
     drawnow
+    gif
 end
 
