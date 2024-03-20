@@ -46,7 +46,7 @@ iWTtransMat = [eul2rotm(WTRPY,'ZYX')' eul2rotm(WTRPY,'ZYX')'*-[WTx WTy WTz]'; 0 
 % 8 -> Sinusoidal Welding Traj, dont forget the set [WTorch = "On"]
 
 
-TrajSelect = 0;   % 0 Home Pose
+TrajSelect = 6;   % 0 Home Pose
 NoD = 50;        % Number of sample
 Traj = WorkSpaceTraj(TrajSelect,NoD);
 Roll = 0;
@@ -62,9 +62,9 @@ AllTargetPose = zeros(4,4,size(Traj,1));
 AllMatrix = zeros(4,24,size(Traj,1));
 for i = 1:size(Traj,1)
     if TrajSelect == 6 % Wrist Dance
-        Roll = linspace(0,0,NoD);
-        Pitch = linspace(-180,90,NoD);
-        Yaw = linspace(0,120,NoD);
+        Roll = linspace(0,90,NoD);
+        Pitch = linspace(0,0,NoD);
+        Yaw = linspace(90,90,NoD);
         eul = [Roll(i) Pitch(i) Yaw(i)]*pi/180;
         eeOrient = eul2rotm(eul,'ZYX');  
     end
