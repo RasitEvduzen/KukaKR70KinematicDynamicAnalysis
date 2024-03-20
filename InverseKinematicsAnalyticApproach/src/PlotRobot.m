@@ -1,4 +1,4 @@
-function [] = PlotRobot(TransPlot,baseGeo,link1Geo,link2Geo,link3Geo,link4Geo,link5Geo,link6Geo,torchGeo,WTorch,WTtransMat)
+function [] = PlotRobot(TransPlot,baseGeo,link1Geo,link2Geo,link3Geo,link4Geo,link5Geo,link6Geo,torchGeo,WTorch,WTtransMat,TrajSelect)
 
 % Plot Triad
 trplot(eye(4),'frame','0','thick',1,'rgb','length',300)
@@ -37,12 +37,13 @@ trisurf(link5Geo.ConnectivityList, plotLink5(:, 1), plotLink5(:, 2), plotLink5(:
 trisurf(link6Geo.ConnectivityList, plotLink6(:, 1), plotLink6(:, 2), plotLink6(:, 3), ...
     FaceColor = [0.5, 0.5, 0.5],EdgeColor = "none");
 
-if WTorch == "On"
+if WTorch == "On" 
     % --------------------- Torch Plot  ---------------------%
     trplot(TransPlot(:,21:24)*WTtransMat,'frame','ee','thick',1,'rgb','length',100);
     plotTorch = TransformGeo(torchGeo.Points, TransPlot(:,21:24));
     trisurf(torchGeo.ConnectivityList, plotTorch(:, 1), plotTorch(:, 2), plotTorch(:, 3), ...
         FaceColor = [0, 1, 0.5],EdgeColor = "none");
+    if (TrajSelect == 7 | TrajSelect == 8)
     % --------------------- Table Plot  ---------------------%
     tableGeo = stlread("table.STL");
     TableTriad = eye(4);
@@ -57,6 +58,7 @@ if WTorch == "On"
     plotTable = TransformGeo(plateGeo.Points, PlateTriad);
     trisurf(plateGeo.ConnectivityList, plotTable(:, 1), plotTable(:, 2), plotTable(:, 3), ...
         FaceColor = [1, 1, 1],EdgeColor = "none");
+    end
     
 end
 camlight;

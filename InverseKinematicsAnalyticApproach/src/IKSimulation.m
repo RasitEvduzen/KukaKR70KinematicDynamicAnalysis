@@ -25,7 +25,7 @@ d     = [d1, 0, 0, d4, 0, d6];
 DhParam = [a; alpha; d];
 %-----------------------------------------------------------------%
 % Welding Torch Option
-WTorch = "Off";  % Welding Torch On ~ Off
+WTorch = "On";  % Welding Torch On ~ Off
 WTx = -1.8;  % X offset [mm] Real Value = 1.80248
 WTy = -1.16; % Y offset [mm] Real Value = -1.15921
 WTz = 436.99;   % Z offset [mm] Real Value = 436.99162
@@ -46,11 +46,11 @@ iWTtransMat = [eul2rotm(WTRPY,'ZYX')' eul2rotm(WTRPY,'ZYX')'*-[WTx WTy WTz]'; 0 
 % 8 -> Sinusoidal Welding Traj, dont forget the set [WTorch = "On"]
 
 
-TrajSelect = 7;   % 0 Home Pose
+TrajSelect = 0;   % 0 Home Pose
 NoD = 50;        % Number of sample
 Traj = WorkSpaceTraj(TrajSelect,NoD);
 Roll = 0;
-Pitch = 0;
+Pitch = -45;
 Yaw = -180;
 eul = [Roll Pitch Yaw]*pi/180;
 eeOrient = eul2rotm(eul,'ZYX');  % Default "ZYX" For Home Pose R=0,P=-90,Y=-180
@@ -112,7 +112,7 @@ for i = 1:size(AllMatrix,3)-1
     axis equal,axis([-2500 2500 -2500 2500 0 2500])
     view(45,20)  % First arguman is azimuth angle, second is elevation angle
     TransPlot = AllMatrix(:,:,i); 
-    PlotRobot(TransPlot,baseGeo,link1Geo,link2Geo,link3Geo,link4Geo,link5Geo,link6Geo,torchGeo,WTorch,WTtransMat)
+    PlotRobot(TransPlot,baseGeo,link1Geo,link2Geo,link3Geo,link4Geo,link5Geo,link6Geo,torchGeo,WTorch,WTtransMat,TrajSelect)
     drawnow
 end
 
