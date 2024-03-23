@@ -46,7 +46,7 @@ iWTtransMat = [eul2rotm(WTRPY,'ZYX')' eul2rotm(WTRPY,'ZYX')'*-[WTx WTy WTz]'; 0 
 % 8 -> Sinusoidal Welding Traj, dont forget the set [WTorch = "On"]
 
 
-TrajSelect = 6;   % 0 Home Pose
+TrajSelect = 0;   % 0 Home Pose
 NoD = 50;        % Number of sample
 Traj = WorkSpaceTraj(TrajSelect,NoD);
 Roll = 0;
@@ -111,8 +111,7 @@ for i = 1:size(AllMatrix,3)-1
     title('KR70 Robot Inverse Kinematics Simulation')
     axis equal,axis([-2500 2500 -2500 2500 0 2500])
     view(45,20)  % First arguman is azimuth angle, second is elevation angle
-    TransPlot = AllMatrix(:,:,i); 
-    PlotRobot(TransPlot,baseGeo,link1Geo,link2Geo,link3Geo,link4Geo,link5Geo,link6Geo,torchGeo,WTorch,WTtransMat,TrajSelect)
+    PlotRobot(AllMatrix(:,:,i),baseGeo,link1Geo,link2Geo,link3Geo,link4Geo,link5Geo,link6Geo,torchGeo,WTorch,WTtransMat,TrajSelect)
     drawnow
 end
 
