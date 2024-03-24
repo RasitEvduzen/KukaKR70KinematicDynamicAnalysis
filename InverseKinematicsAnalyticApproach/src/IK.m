@@ -18,8 +18,6 @@ function [JointAngle] = IK(TEnd,DhParam)
 % DhParam = [a; alpha; d];
 % *******************************
 % Written By: Rasit EVDUZEN
-% Date      : 23-Dec-2021
-% Version   : V1
 % *******************************
 %---------------------------------------------------------------------------
 a     = DhParam(1,:);
