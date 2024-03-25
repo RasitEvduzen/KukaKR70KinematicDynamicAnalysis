@@ -28,12 +28,12 @@ Theta = InitialTheta';
 % ForwardKinematics(Theta,DhParam)
 %---------------------- Robot Target Pose & Orientation ----------------------%
 % Home Pose (X,Y,Z,R,P,Y) -> [1395,0,1515,0,90,-180]
-TpX = 1250;    
-TpY = 1000;       
-TpZ = 1300;  
-TpRoll = 0;    
-TpPitch = 0;   
-TpYaw = -90;    
+TpX = 750;
+TpY = 1250;
+TpZ = 1100;
+TpRoll = -45;
+TpPitch = 0;
+TpYaw = 0;
 eul = [TpRoll TpPitch TpYaw];
 TargetPoint = [TpX TpY TpZ eul];
 eeOrient = eul2rotm(deg2rad(eul),'XYZ');  % Default "ZYX" For Home Pose R=0,P=-90,Y=-180
@@ -46,7 +46,8 @@ TargetPose = [eeOrient [TpX TpY TpZ]';0 0 0 1];  % TargetPose 4x4 Homogeneous Tr
 % view(145,20)  % First arguman is azimuth angle, second is elevation angle
 % return
 
-s = -2e-5;  % Step Size
+nu = 10;    % LM parameters
+s = 1e-1;  % 9e-1
 NoIter = 1e6;
 StopCondition = 1e-3;
 SimTheta = zeros(NoIter,6);
@@ -56,9 +57,27 @@ for k=1:NoIter
     y = [X,Y,Z,Roll,Pitch,Yaw]';
     e = [TargetPoint'- y];            % Calculate Error
     Jr = Jacobian(Theta,DhParam);            % Calculate Jacobian  There are error !
-    Theta = Theta - s*Jr'*e; % Update Parameter via Gradient direction
+    f1 = e'*e;
+    LC2 = 1;
+    while LC2       % Optimization Algorithm Levenberg Marquardt
+        p = -inv(Jr'*Jr+nu*eye(size(Theta,1)))*Jr'*e;
+        f2 = (ForwardKinematics(Theta+p,DhParam)-ForwardKinematics(Theta,DhParam))'*(ForwardKinematics(Theta+p,DhParam)-ForwardKinematics(Theta,DhParam));
+        if  f2 < f1
+            Theta = Theta-s*p;
+            nu = 1e-3 * nu;
+            LC2 = 0;
+        else
+            nu = 1e3 * nu;
+            if nu > 1e+20
+                LC1 = 0;
+                LC2 = 0;
+            end
+        end
+    end
+
+
     SimTheta(k,:) = Theta';
-    if mod(k,1e3) == 0
+    if mod(k,1e2) == 0
         disp("||Error||-> "+num2str(norm(e)))
     end
     if abs(norm(e)) <= StopCondition
@@ -83,23 +102,23 @@ end
 
 %% Robot Simulation
 figure('units','normalized','outerposition',[0 0 1 1],'color','w')
-DispMatrixSize = size(AllMatrix,3)-mod(size(AllMatrix,3),1e4);
+DispMatrixSize = size(AllMatrix,3)-mod(size(AllMatrix,3),1e1);
 for i = 1:DispMatrixSize
     clf
     xlabel('X-axis [mm]'),ylabel('Y-axis [mm]'),zlabel('Z-axis [mm]'),hold on,grid on
     trplot(TargetPose,'frame','TargetPose','thick',1,'rgb','length',500)
-    title('KUKA KR70 IK Solution via Steepest Descent')
+    title('KUKA KR70 IK Solution via Levenberg Marquardt')
     axis equal,axis([-2500 2500 -2500 2500 0 2500])
-    view(45,20)  % First arguman is azimuth angle, second is elevation angle
-    if i < 20
+    view(200,20)  % First arguman is azimuth angle, second is elevation angle
+    if i < 50
         PlotRobot(AllMatrix(:,:,i),baseGeo,link1Geo,link2Geo,link3Geo,link4Geo,link5Geo,link6Geo)
-        idx = i;
-    else 
-        idx = idx + 1e4;
+        idx = i + 10;
+    else
         PlotRobot(AllMatrix(:,:,idx),baseGeo,link1Geo,link2Geo,link3Geo,link4Geo,link5Geo,link6Geo)
-    end
-    if idx > DispMatrixSize
-        break
+        idx = idx + 1e3;
+        if idx > DispMatrixSize
+            break
+        end
     end
     drawnow
 end
