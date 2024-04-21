@@ -82,7 +82,7 @@ end
 SimulinkSimTime = size(SimTheta,1)*Ts;
 tSimulink = linspace(0,size(SimTheta,1)*Ts,size(SimTheta,1))';
 
-sim("KUKAKR70.slx");
+sim("KUKAKR70ID.slx");
 % ---------------------------- Plot Simulation Result ----------------------------
 %% Plot Joint Space Trajectory Profile
 figure('units','normalized','outerposition',[0 0 1 1],'color','w')
