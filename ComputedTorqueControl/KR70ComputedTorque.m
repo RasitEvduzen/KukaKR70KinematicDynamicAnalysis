@@ -11,6 +11,7 @@ d1 = 575; d4 = 1035; d6 = 185;
 a     = [0,a2,a3,a4,0,0];
 alpha = [0,90, 0, 90, -90, 90];
 d     = [d1, 0, 0, d4, 0, d6];
+JointOffset = [0 90 0 0 0 0];
 DhParam = [a; alpha; d];
 %-----------------------------------------------------------------%
 % Type of Trajectory P2P
@@ -26,13 +27,16 @@ eeOrient = eul2rotm(eul,'ZYX');  % Default "ZYX" For Home Pose R=0,P=-90,Y=-180
 HomeTransMat = [0 0 1 1395; 0 -1 0 0; 1 0 0 1515; 0 0 0 1];
 AllTargetPose(:,:,1) = HomeTransMat;
 AllTargetPose(:,:,2) = [eeOrient [X Y Z]'; 0 0 0 1];
-
+% Tüm acıları ve geometrik modeli düzelt ve konum kontrolü yap, sonrasında
+% modeli update et kodları düzenle
 %------------------ Calculate Inverse Kinematics -----------------%
 iversethetaInitial = IK(AllTargetPose(:,:,1),DhParam);
+iversethetaInitial = iversethetaInitial - JointOffset;
 iversethetaFinal   = IK(AllTargetPose(:,:,2),DhParam);
+iversethetaFinal = iversethetaFinal - JointOffset;
 
 % -------------------------- Traj Param --------------------------
-Ts = 1e-3;       % Sampling Periode
+Ts = 1e-4;       % Sampling Periode
 % ------------ [180 158 160 230 230 320]    % KR70 Default Axis Speed
 MaxVelocity = [180 158 160 230 230 320];   % Kuka KR70 Joint Angular Speed
 
