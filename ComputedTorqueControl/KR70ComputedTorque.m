@@ -2,7 +2,7 @@ clc,clear all,close all,warning off;
 %% 6 DOF ROBOTIC ARM Computed Torque Control
 % Kuka KR70 ROBOTIC ARM
 % Written By: Rasit EVDUZEN
-% 26-Apr-2020
+% 27-Apr-2024
 %% ROBOT SIMULATION
 % -------------------- Robot Dynamic Parameters ------------------%
 DynamicParam
