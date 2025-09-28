@@ -87,9 +87,9 @@ end
 
 %% Robot Simulation
 figure('units','normalized','outerposition',[0 0 1 1],'color','w')
-gif('RobotTraj.gif')
+% gif('RobotTraj.gif')
 for i = 1:size(AllMatrix,3)
-    if mod(i,2) == 0
+    if mod(i,1e1) == 0
         clf
         plot3(EETraj(:,1),EETraj(:,2),EETraj(:,3),'k',LineWidth=2),hold on,grid on
         xlabel('X-axis [mm]'),ylabel('Y-axis [mm]'),zlabel('Z-axis [mm]')
@@ -99,7 +99,7 @@ for i = 1:size(AllMatrix,3)
         view(65,15)  % First arguman is azimuth angle, second is elevation angle
         PlotRobot(AllMatrix(:,:,i),baseGeo,link1Geo,link2Geo,link3Geo,link4Geo,link5Geo,link6Geo)
         drawnow
-        gif
+%         gif
     end
 end
 

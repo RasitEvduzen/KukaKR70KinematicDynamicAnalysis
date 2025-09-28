@@ -46,11 +46,11 @@ iWTtransMat = [eul2rotm(WTRPY,'ZYX')' eul2rotm(WTRPY,'ZYX')'*-[WTx WTy WTz]'; 0 
 % 8 -> Sinusoidal Welding Traj, dont forget the set [WTorch = "On"]
 
 
-TrajSelect = 0;   % 0 Home Pose
+TrajSelect = 8;   % 0 Home Pose
 NoD = 50;        % Number of sample
 Traj = WorkSpaceTraj(TrajSelect,NoD);
 Roll = 0;
-Pitch = -45;
+Pitch = 0;
 Yaw = -180;
 eul = [Roll Pitch Yaw]*pi/180;
 eeOrient = eul2rotm(eul,'ZYX');  % Default "ZYX" For Home Pose R=0,P=-90,Y=-180
@@ -104,7 +104,7 @@ end
 
 %% Robot Simulation
 figure('units','normalized','outerposition',[0 0 1 1],'color','w')
-for i = 1:size(AllMatrix,3)-1
+for i = 1:1e1:size(AllMatrix,3)-1
     clf
     plot3(Traj(:,1),Traj(:,2),Traj(:,3),'k',LineWidth=2),hold on,grid on
     xlabel('X-axis [mm]'),ylabel('Y-axis [mm]'),zlabel('Z-axis [mm]')
